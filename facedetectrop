@@ -1,32 +1,46 @@
 import gab.opencv.*;
 import java.awt.Rectangle;
-
+ 
 OpenCV opencv;
 Rectangle[] faces;
 int filenumber = 0;
+int croppedimage = 0;
 
-void setup() {
-  opencv = new OpenCV(this, "test2.jpg");
-  size(opencv.width, opencv.height);
+File dir = new File("/Users/JPHS1/Documents/Processing/Park");
+String[] imglist = dir.list();
 
-  opencv.loadCascade(OpenCV.CASCADE_FRONTALFACE);  
-  faces = opencv.detect();
-}
-
+ void setup() {
+   
+    for (String name1 : list) {
+       setupSmall(name1);
+       drawSmall();
+    }
+    // 
+} 
+ 
 void draw() {
-  
-  for (int i = 0; i < faces.length; i++) {
+     // empty
+}
+ 
+// -----------------------------------------
+ 
+ void setupSmall(String name1) {
+   opencv = new OpenCV(this, name1);
+ 
+  opencv.loadCascade(OpenCV.CASCADE_FRONTALFACE);
+  faces = opencv.detect();
+ }   
+ 
+  void drawSmall() {
     rect(faces[i].x, faces[i].y, faces[i].width, faces[i].height);
     copy(opencv.getInput(),faces[i].x, faces[i].y, faces[i].width, faces[i].height, 0,0, faces[i].width, faces[i].height);
-    
-  if (filenumber < 1) {
+ 
+  if (filenumber < 3) {
     line(filenumber, 0, filenumber, 100);
     filenumber = filenumber + 1;
     } else {
-    noLoop();
-  }
+    noLoop(); // ??????????????????????????
+  } // else 
  
-  saveFrame("cropped" + filenumber); 
-}
-  }
-
+  saveFrame("cropped" + filenumber);
+} // function 
