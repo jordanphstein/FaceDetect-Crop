@@ -3,15 +3,17 @@ import java.awt.Rectangle;
  
 OpenCV opencv;
 Rectangle[] faces;
+PImage[] fragment;
 int filenumber = 0;
 int croppedimage = 0;
-
-File dir = new File("/Users/JPHS1/Documents/Processing/Park");
-String[] imglist = dir.list();
-
+int nof = 2; 
+ 
  void setup() {
-   
-    for (String name1 : list) {
+    size(600, 600);
+    fragment=new PImage[nof];
+    
+    for(int i=1;i<fragment.length;i++) {
+       String name1 = str(i) + ".jpg"; // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
        setupSmall(name1);
        drawSmall();
     }
@@ -32,15 +34,21 @@ void draw() {
  }   
  
   void drawSmall() {
+     for (int i = 0; i < faces.length; i++) {
     rect(faces[i].x, faces[i].y, faces[i].width, faces[i].height);
     copy(opencv.getInput(),faces[i].x, faces[i].y, faces[i].width, faces[i].height, 0,0, faces[i].width, faces[i].height);
  
-  if (filenumber < 3) {
+  if (filenumber < 2) {
     line(filenumber, 0, filenumber, 100);
     filenumber = filenumber + 1;
     } else {
     noLoop(); // ??????????????????????????
-  } // else 
+  } 
  
-  saveFrame("cropped" + filenumber);
-} // function 
+PImage sectionOfScreen = get(0,0, faces[i].width, faces[i].height);
+ 
+sectionOfScreen.save("cropped" + filenumber);
+
+  }
+  }
+  
